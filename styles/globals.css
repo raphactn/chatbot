@@ -14,3 +14,24 @@ a {
 * {
   box-sizing: border-box;
 }
+.pergunta {
+  width: max-content;
+  background-color: white;
+  color: black;
+  margin-right: auto;
+  border-radius: 10px;
+  padding: 10px 20px;
+  float: left;
+  border-bottom-left-radius: 0px;
+}
+
+.resposta {
+  width: max-content;
+  background-color: #1976d2;
+  color: white;
+  padding: 10px 20px;
+  margin-left: auto;
+  border-radius: 10px;
+  float: right;
+  border-bottom-right-radius: 0px;
+}

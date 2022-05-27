@@ -1,8 +1,6 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
@@ -16,50 +14,101 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
 
+
 export default function Ichat() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState();
+    const [valueInput, setValueInput] = React.useState();
 
     const handleClick = (newPlacement) => (event) => {
         setAnchorEl(event.currentTarget);
         setOpen((prev) => placement !== newPlacement || !prev);
         setPlacement(newPlacement);
     };
-  const handleSend = () => {
-   alert('funcionou')
-  };
+    
+    const handleQuestion = () =>{
+        setTimeout(function () {
+            const ichat2 = document.getElementById('ichat');
+            const text2 = document.createElement("p");
+            text2.setAttribute("class", "bg-light pergunta");
+            ichat2.appendChild(text2);
+            if (valueInput !== "") {
+                text2.innerText = 'Digite a opção desejada: \n 1. Primeira opção \n 2. Segunda opção \n 3. Terceira opção'
+            }
+            if (valueInput == '1') {
+                text2.innerText = 'Você escolheu a primeira opção!'
+            }
+            if (valueInput == '2') {
+                text2.innerText = 'Você escolheu a segunda opção!'
+            }
+            if (valueInput == '3') {
+                text2.innerText = 'Você escolheu a terceira opção!'
+            }
+            text2.scrollIntoView()
+        }, 700)
+    }
+
+    const handleSend = () => {
+        const input = document.getElementById('filled-hidden-label-normal');
+        if(input.value === ""){
+        return
+        }
+        else{
+        const ichat = document.getElementById('ichat');
+        const text = document.createElement("p");
+        text.setAttribute("class", "resposta");
+        ichat.appendChild(text);
+        text.innerText = valueInput;
+        handleQuestion();
+        input.value = "";
+        text.scrollIntoView()
+        }
+    };
+
+
     return (
-        <Box sx={{ width: 500 }}>
-            <Grid container justifyContent="center">
-                <Grid item>
-                    <Button sx={{ position: 'fixed', bottom: 50, right: 50, background: '#1976d2', padding: 3, borderRadius: 100, }} onClick={handleClick('top')}>
-                        {open ?
-                            <CloseIcon sx={{ color: 'white' }} />
-                            : <MessageIcon sx={{ color: 'white' }} />}
-                    </Button>
-                </Grid>
-            </Grid>
+        <>
+            <Button sx={{
+                background: "#1976d2",
+                '&:hover': {
+                    background: "#1976d2",
+                },
+                position: 'fixed',
+                bottom: 50,
+                right: 50,
+                padding: 3,
+                borderRadius: '50%',
+            }}
+                onClick={handleClick('top')}>
+                {open ?
+                    <CloseIcon sx={{ color: 'white' }} />
+                    : <MessageIcon sx={{ color: 'white' }} />}
+
+            </Button>
             <Popper open={open} anchorEl={anchorEl} placement={placement} transition>
                 {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={350}>
                         <Paper sx={{ marginRight: 6, marginBottom: 3 }}>
-                            <Card sx={{ maxWidth: 350 }}>
-                                <CardMedia
-                                />
+                            <Card sx={{ width: 350, height: 560 }}>
+                                <CardMedia>
                                 <Typography sx={{ background: '#1976d2', color: 'white', p: 2, textAlign: 'center' }}>Chat Bot React</Typography>
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        Lizard
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                                        species, ranging across all continents except Antarctica
-                                    </Typography>
+                                <CardContent sx={{ padding: '0px'}}>
+                                <Paper 
+                                id="ichat" 
+                                sx={{ height: 430, 
+                                    boxShadow: 'none', 
+                                    background: '#eaeef3',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    padding: '5px',
+                                    overflow: 'auto'
+                                    }}>
+                                        <p className='pergunta'>Olá, como posso te ajudar?</p>
+                                </Paper>
                                 </CardContent>
                                 <CardActions>
                                     <Stack
-                                        component="form"
                                         sx={{
                                             width: '100%',
                                         }}
@@ -71,20 +120,20 @@ export default function Ichat() {
                                             hiddenLabel
                                             id="filled-hidden-label-normal"
                                             defaultValue=""
+                                            onChange={(e) => setValueInput(e.target.value)}
                                             variant="filled"
                                             InputProps={{
-                                                endAdornment: <SendIcon position="end" sx={{ cursor: 'pointer'}} onClick={handleSend}/>
-                                              }}
+                                                endAdornment: <SendIcon id="btn" position="end" sx={{ cursor: 'pointer' }} onClick={handleSend} />
+                                            }}
                                         />
                                     </Stack>
-                                        
                                 </CardActions>
+                                </CardMedia>
                             </Card>
                         </Paper>
                     </Fade>
                 )}
             </Popper>
-
-        </Box>
+        </>
     );
 }
