@@ -13,7 +13,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
-
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 
 export default function Ichat() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,8 +27,8 @@ export default function Ichat() {
         setOpen((prev) => placement !== newPlacement || !prev);
         setPlacement(newPlacement);
     };
-    
-    const handleQuestion = () =>{
+
+    const handleQuestion = () => {
         setTimeout(function () {
             const ichat2 = document.getElementById('ichat');
             const text2 = document.createElement("p");
@@ -51,18 +52,18 @@ export default function Ichat() {
 
     const handleSend = () => {
         const input = document.getElementById('filled-hidden-label-normal');
-        if(input.value === ""){
-        return
+        if (input.value === "") {
+            return
         }
-        else{
-        const ichat = document.getElementById('ichat');
-        const text = document.createElement("p");
-        text.setAttribute("class", "resposta");
-        ichat.appendChild(text);
-        text.innerText = valueInput;
-        handleQuestion();
-        input.value = "";
-        text.scrollIntoView()
+        else {
+            const ichat = document.getElementById('ichat');
+            const text = document.createElement("p");
+            text.setAttribute("class", "resposta");
+            ichat.appendChild(text);
+            text.innerText = valueInput;
+            handleQuestion();
+            input.value = "";
+            text.scrollIntoView()
         }
     };
 
@@ -77,8 +78,8 @@ export default function Ichat() {
                 position: 'fixed',
                 bottom: 50,
                 right: 50,
-                padding: 3,
-                borderRadius: '50%',
+                padding: 2,
+                borderRadius: 1,
             }}
                 onClick={handleClick('top')}>
                 {open ?
@@ -90,44 +91,53 @@ export default function Ichat() {
                 {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={350}>
                         <Paper sx={{ marginRight: 6, marginBottom: 3 }}>
-                            <Card sx={{ width: 350, height: 560 }}>
+                            <Card sx={{ width: 320, height: 490 }}>
                                 <CardMedia>
-                                <Typography sx={{ background: '#1976d2', color: 'white', p: 2, textAlign: 'center' }}>Chat Bot React</Typography>
-                                <CardContent sx={{ padding: '0px'}}>
-                                <Paper 
-                                id="ichat" 
-                                sx={{ height: 430, 
-                                    boxShadow: 'none', 
-                                    background: '#eaeef3',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    padding: '5px',
-                                    overflow: 'auto'
-                                    }}>
-                                        <p className='pergunta'>Olá, como posso te ajudar?</p>
-                                </Paper>
-                                </CardContent>
-                                <CardActions>
-                                    <Stack
-                                        sx={{
-                                            width: '100%',
-                                        }}
-                                        spacing={2}
-                                        noValidate
-                                        autoComplete="off"
-                                    >
-                                        <TextField
-                                            hiddenLabel
-                                            id="filled-hidden-label-normal"
-                                            defaultValue=""
-                                            onChange={(e) => setValueInput(e.target.value)}
-                                            variant="filled"
-                                            InputProps={{
-                                                endAdornment: <SendIcon id="btn" position="end" sx={{ cursor: 'pointer' }} onClick={handleSend} />
+                                    <Box sx={{ background: '#1976d2', flexGrow: 1, display: 'flex', gap: 2, p: 1 }}>
+                                        <Avatar alt="Remy Sharp" src="botao-chatbot-icon.png" />
+                                        <Typography sx={{
+                                            marginTop: 1,
+                                            color: 'white'
+                                        }}>Chat Bot React</Typography>
+                                    </Box>
+
+                                    <CardContent sx={{ padding: '0px' }}>
+                                        <Paper
+                                            id="ichat"
+                                            sx={{
+                                                height: 360,
+                                                boxShadow: 'none',
+                                                background: '#f0f0f0',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                padding: '5px',
+                                                overflow: 'auto'
+                                            }}>
+                                            <p className='pergunta'>Olá, como posso te ajudar?</p>
+                                        </Paper>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Stack
+                                            sx={{
+                                                width: '100%',
                                             }}
-                                        />
-                                    </Stack>
-                                </CardActions>
+                                            spacing={2}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <TextField
+                                                hiddenLabel
+                                                id="filled-hidden-label-normal"
+                                                defaultValue=""
+                                                onChange={(e) => setValueInput(e.target.value)}
+                                                variant="filled"
+                                                multiline
+                                                InputProps={{
+                                                    endAdornment: <SendIcon id="btn" position="end" sx={{ cursor: 'pointer' }} onClick={handleSend} />
+                                                }}
+                                            />
+                                        </Stack>
+                                    </CardActions>
                                 </CardMedia>
                             </Card>
                         </Paper>
